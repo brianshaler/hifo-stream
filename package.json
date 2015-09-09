@@ -1,12 +1,27 @@
 {
   "name": "hifo-stream",
   "version": "1.0.0",
-  "description": "",
+  "description": "Stream interface for hifo",
   "main": "index.js",
+  "keywords": [
+    "sort",
+    "sorting",
+    "highest in first out",
+    "maximum",
+    "minimum",
+    "hifo",
+    "array",
+    "filter",
+    "javascript",
+    "stream"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/brianshaler/hifo-stream.git"
+  },
   "scripts": {
     "test": "mocha --compilers coffee:coffee-script/register --reporter mocha-tldr-reporter ./test"
   },
-  "author": "",
   "license": "ISC",
   "dependencies": {
     "event-stream": "^3.3.1",
