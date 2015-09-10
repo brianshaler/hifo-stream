@@ -31,16 +31,17 @@ piObjectStream = (valueKey = 'value') ->
 
 describe 'HifoStream', () ->
 
+  it 'should require a `sort` function', () ->
+    assert.throws () ->
+      HifoStream()
+    assert.doesNotThrow () ->
+      HifoStream HifoStream.lowest()
+
   describe 'sorted', () ->
 
-    it 'should require a `sort` function', () ->
-      assert.throws () ->
-        HifoStream.sorted()
-      assert.doesNotThrow () ->
-        HifoStream.sorted HifoStream.lowest()
-
     it 'should fill `data` until `size` is reached', () ->
-      stream = HifoStream.sorted HifoStream.lowest(), 2
+      hifo = HifoStream HifoStream.lowest(), 2
+      stream = hifo.sorted()
       result = []
       input = piIntStream()
 
@@ -55,7 +56,8 @@ describe 'HifoStream', () ->
       assert.equal result.length, 2
 
     it 'should sort integer `data` by `lowest`', () ->
-      stream = HifoStream.sorted HifoStream.lowest(), 4
+      hifo = HifoStream HifoStream.lowest(), 4
+      stream = hifo.sorted()
       result = []
       input = piIntStream()
 
@@ -70,7 +72,8 @@ describe 'HifoStream', () ->
       assert.deepEqual result, [1, 2, 3, 4]
 
     it 'should sort integer `data` by `highest`', () ->
-      stream = HifoStream.sorted HifoStream.highest(), 5
+      hifo = HifoStream HifoStream.highest(), 5
+      stream = hifo.sorted()
       result = []
       input = piIntStream()
 
@@ -85,7 +88,8 @@ describe 'HifoStream', () ->
       assert.deepEqual result, [9, 6, 4, 3, 2]
 
     it 'should sort object `data` by `lowest(\'value\')`', () ->
-      stream = HifoStream.sorted HifoStream.lowest('value'), 4
+      hifo = HifoStream HifoStream.lowest('value'), 4
+      stream = hifo.sorted()
       result = []
       input = piObjectStream 'value'
 
@@ -105,7 +109,8 @@ describe 'HifoStream', () ->
       ]
 
     it 'should sort object `data` by `lowest(\'a\', \'b\')`', () ->
-      stream = HifoStream.sorted HifoStream.lowest('value', 'i'), 4
+      hifo = HifoStream HifoStream.lowest('value', 'i'), 4
+      stream = hifo.sorted()
       result = []
       input = piObjectStream 'value'
 
@@ -125,7 +130,8 @@ describe 'HifoStream', () ->
       ]
 
     it 'should sort object `data` by `highest(\'value\')`', () ->
-      stream = HifoStream.sorted HifoStream.highest('value'), 5
+      hifo = HifoStream HifoStream.highest('value'), 5
+      stream = hifo.sorted()
       result = []
       input = piObjectStream 'value'
 
@@ -146,7 +152,8 @@ describe 'HifoStream', () ->
       ]
 
     it 'should sort object `data` by `highest(\'a\', \'b\')`', () ->
-      stream = HifoStream.sorted HifoStream.highest('value', 'i'), 5
+      hifo = HifoStream HifoStream.highest('value', 'i'), 5
+      stream = hifo.sorted()
       result = []
       input = piObjectStream 'value'
 
@@ -167,7 +174,8 @@ describe 'HifoStream', () ->
       ]
 
     it 'should not emit an event for the same number twice', () ->
-      stream = HifoStream.sorted HifoStream.highest(), 7
+      hifo = HifoStream HifoStream.highest(), 7
+      stream = hifo.sorted()
       count = 0
       input = piIntStream()
 
@@ -182,7 +190,8 @@ describe 'HifoStream', () ->
       assert.equal count, 6
 
     it 'should not emit an event for the same object twice', () ->
-      stream = HifoStream.sorted HifoStream.highest 'value'
+      hifo = HifoStream HifoStream.highest 'value'
+      stream = hifo.sorted()
       count = 0
       inputStream = es.through()
 
@@ -201,7 +210,8 @@ describe 'HifoStream', () ->
       assert.equal count, 2
 
     it 'should put new but equal objects before the existing', () ->
-      stream = HifoStream.sorted HifoStream.highest 'value'
+      hifo = HifoStream HifoStream.highest 'value'
+      stream = hifo.sorted()
       results = []
       inputStream = es.through()
 
@@ -226,14 +236,9 @@ describe 'HifoStream', () ->
 
   describe 'filter', () ->
 
-    it 'should require a `sort` function', () ->
-      assert.throws () ->
-        HifoStream.filter()
-      assert.doesNotThrow () ->
-        HifoStream.filter HifoStream.lowest()
-
     it 'should fill `data` until `size` is reached', () ->
-      stream = HifoStream.filter HifoStream.lowest(), 2
+      hifo = HifoStream HifoStream.lowest(), 2
+      stream = hifo.filter()
       result = []
       input = piIntStream()
 
@@ -250,7 +255,8 @@ describe 'HifoStream', () ->
       assert.equal result.length, 2
 
     it 'should filter integers by `lowest`', () ->
-      stream = HifoStream.filter HifoStream.lowest(), 2
+      hifo = HifoStream HifoStream.lowest(), 2
+      stream = hifo.filter()
       result = []
       input = piIntStream()
 
@@ -263,7 +269,8 @@ describe 'HifoStream', () ->
       assert.deepEqual result, [3, 1, 2] # skipped 4
 
     it 'should filter integers by `highest`', () ->
-      stream = HifoStream.filter HifoStream.highest(), 2
+      hifo = HifoStream HifoStream.highest(), 2
+      stream = hifo.filter()
       result = []
       input = piIntStream()
 
@@ -276,7 +283,8 @@ describe 'HifoStream', () ->
       assert.deepEqual result, [3, 1, 4] # skipped 2
 
     it 'should filter objects by `lowest(\'value\')`', () ->
-      stream = HifoStream.filter HifoStream.lowest('value'), 2
+      hifo = HifoStream HifoStream.lowest('value'), 2
+      stream = hifo.filter()
       result = []
       input = piObjectStream 'value'
 
@@ -293,7 +301,8 @@ describe 'HifoStream', () ->
       ]
 
     it 'should filter objects by `lowest(\'a\', \'b\')`', () ->
-      stream = HifoStream.filter HifoStream.lowest('value', 'i'), 4
+      hifo = HifoStream HifoStream.lowest('value', 'i'), 4
+      stream = hifo.filter()
       result = []
       input = piObjectStream 'value'
 
@@ -312,7 +321,8 @@ describe 'HifoStream', () ->
       ]
 
     it 'should filter objects by `highest(\'value\')`', () ->
-      stream = HifoStream.filter HifoStream.highest('value'), 4
+      hifo = HifoStream HifoStream.highest('value'), 4
+      stream = hifo.filter()
       result = []
       input = piObjectStream 'value'
 
@@ -334,7 +344,8 @@ describe 'HifoStream', () ->
       ]
 
     it 'should filter objects by `highest(\'a\', \'b\')`', () ->
-      stream = HifoStream.filter HifoStream.highest('value', 'i'), 4
+      hifo = HifoStream HifoStream.highest('value', 'i'), 4
+      stream = hifo.filter()
       result = []
       input = piObjectStream 'value'
 
@@ -359,7 +370,8 @@ describe 'HifoStream', () ->
       ]
 
     it 'should not emit an event for the same number twice', () ->
-      stream = HifoStream.filter HifoStream.highest(), 7
+      hifo = HifoStream HifoStream.highest(), 7
+      stream = hifo.filter()
       count = 0
       input = piIntStream()
 
@@ -372,7 +384,8 @@ describe 'HifoStream', () ->
       assert.equal count, 6
 
     it 'should not emit an event for the same object twice', () ->
-      stream = HifoStream.filter HifoStream.highest 'value'
+      hifo = HifoStream HifoStream.highest 'value'
+      stream = hifo.filter()
       count = 0
       inputStream = es.through()
 
@@ -400,14 +413,9 @@ describe 'HifoStream', () ->
 
   describe 'update', () ->
 
-    it 'should require a `sort` function', () ->
-      assert.throws () ->
-        HifoStream.update()
-      assert.doesNotThrow () ->
-        HifoStream.update HifoStream.lowest()
-
     it 'should fill `data` until `size` is reached', () ->
-      stream = HifoStream.update HifoStream.lowest(), 2
+      hifo = HifoStream HifoStream.lowest(), 2
+      stream = hifo.update()
       result = []
       input = piIntStream()
 
@@ -424,7 +432,8 @@ describe 'HifoStream', () ->
       assert.equal result.length, 2
 
     it 'should sort integers by `lowest`', () ->
-      stream = HifoStream.update HifoStream.lowest(), 3
+      hifo = HifoStream HifoStream.lowest(), 3
+      stream = hifo.update()
       result = []
       input = piIntStream()
 
@@ -443,7 +452,8 @@ describe 'HifoStream', () ->
       assert.deepEqual result, [1, 2, 3]
 
     it 'should sort integers by `highest`', () ->
-      stream = HifoStream.update HifoStream.highest(), 2
+      hifo = HifoStream HifoStream.highest(), 2
+      stream = hifo.update()
       result = []
       input = piIntStream()
 
@@ -462,7 +472,8 @@ describe 'HifoStream', () ->
       assert.deepEqual result, [4, 3]
 
     it 'should sort objects by `lowest(\'value\')`', () ->
-      stream = HifoStream.update HifoStream.lowest('value'), 3
+      hifo = HifoStream HifoStream.lowest('value'), 3
+      stream = hifo.update()
       result = []
       input = piObjectStream 'value'
 
@@ -479,7 +490,8 @@ describe 'HifoStream', () ->
       ]
 
     it 'should sort object `data` by `lowest(\'value\')`', () ->
-      stream = HifoStream.update HifoStream.lowest('value'), 4
+      hifo = HifoStream HifoStream.lowest('value'), 4
+      stream = hifo.update()
       result = []
       input = piObjectStream 'value'
 
@@ -497,7 +509,8 @@ describe 'HifoStream', () ->
       ]
 
     it 'should sort object `data` by `lowest(\'a\', \'b\')`', () ->
-      stream = HifoStream.update HifoStream.lowest('value', 'i'), 4
+      hifo = HifoStream HifoStream.lowest('value', 'i'), 4
+      stream = hifo.update()
       result = []
       input = piObjectStream 'value'
 
@@ -515,7 +528,8 @@ describe 'HifoStream', () ->
       ]
 
     it 'should sort object `data` by `highest(\'value\')`', () ->
-      stream = HifoStream.update HifoStream.highest('value'), 5
+      hifo = HifoStream HifoStream.highest('value'), 5
+      stream = hifo.update()
       result = []
       input = piObjectStream 'value'
 
@@ -534,7 +548,8 @@ describe 'HifoStream', () ->
       ]
 
     it 'should sort object `data` by `highest(\'a\', \'b\')`', () ->
-      stream = HifoStream.update HifoStream.highest('value', 'i'), 5
+      hifo = HifoStream HifoStream.highest('value', 'i'), 5
+      stream = hifo.update()
       result = []
       input = piObjectStream 'value'
 
@@ -553,7 +568,8 @@ describe 'HifoStream', () ->
       ]
 
     it 'should not emit an event for the same number twice', () ->
-      stream = HifoStream.update HifoStream.highest(), 7
+      hifo = HifoStream HifoStream.highest(), 7
+      stream = hifo.update()
       count = 0
       input = piIntStream()
 
@@ -566,7 +582,8 @@ describe 'HifoStream', () ->
       assert.equal count, 6
 
     it 'should not emit an event for the same object twice', () ->
-      stream = HifoStream.update HifoStream.highest 'value'
+      hifo = HifoStream HifoStream.highest 'value'
+      stream = hifo.update()
       count = 0
       inputStream = es.through()
 
@@ -583,7 +600,8 @@ describe 'HifoStream', () ->
       assert.equal count, 2
 
     it 'should put new but equal objects before the existing', () ->
-      stream = HifoStream.update HifoStream.highest 'value'
+      hifo = HifoStream HifoStream.highest 'value'
+      stream = hifo.update()
       results = []
       inputStream = es.through()
 

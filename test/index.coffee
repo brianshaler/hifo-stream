@@ -1,7 +1,7 @@
 mocha =		require 'mocha'
 assert =	require 'assert'
 
-hifo =		require '../index.js'
+HifoStream =		require '../index.js'
 
 
 
@@ -14,12 +14,12 @@ describe 'index', () ->
 	describe 'lowest', () ->
 
 		it 'should sort numeric values correctly', () ->
-			sort = hifo.lowest()
+			sort = HifoStream.lowest()
 			assert 0 > sort 4, 5
 			assert 0 < sort -1, -2
 
 		it 'should sort object values correctly', () ->
-			sort = hifo.lowest 'test'
+			sort = HifoStream.lowest 'test'
 			assert 0 > sort { test: 4 }, { test: 5 }
 			assert 0 < sort { test: -1 }, { test: -2 }
 
@@ -28,11 +28,11 @@ describe 'index', () ->
 	describe 'highest', () ->
 
 		it 'should sort numeric values correctly', () ->
-			sort = hifo.highest()
+			sort = HifoStream.highest()
 			assert 0 < sort 4, 5
 			assert 0 > sort -1, -2
 
 		it 'should sort object values correctly', () ->
-			sort = hifo.highest 'test'
+			sort = HifoStream.highest 'test'
 			assert 0 < sort { test: 4 }, { test: 5 }
 			assert 0 > sort { test: -1 }, { test: -2 }

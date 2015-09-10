@@ -8,7 +8,7 @@ npm install hifo-stream
 
 ## Usage
 
-### HifoStream.sorted(sortFunction, size)
+### HifoStream.sorted()
 
 Just like *hifo*, you can process an entire list and then get the final result,
 sorted. The output will be a sorted list of individually emitted items.
@@ -20,7 +20,7 @@ var people = require('./people.json');
 
 console.log('logging 3 items with highest `age`');
 es.readArray(people)
-.pipe(HifoStream.sorted(HifoStream.highest('age'), 3))
+.pipe(HifoStream(HifoStream.highest('age'), 3).sorted())
 .on('data', function (data) {
   console.log(data);
 });
@@ -42,7 +42,7 @@ logging 3 items with lowest `age`
 { name: 'Bob', age: 30 }
 ```
 
-### HifoStream.filter(sortFunction, size)
+### HifoStream.filter()
 
 HifoStream.filter passes through items as they come in if they are in the top
 `size` sorted items it has seen so far.
@@ -61,7 +61,7 @@ var people = require('./people.json');
 
 console.log('logging if item.age is in the lowest 2 seen so far');
 es.readArray(people)
-.pipe(HifoStream.filter(HifoStream.lowest('age'), 2))
+.pipe(HifoStream(HifoStream.lowest('age'), 2).filter())
 .on('data', function (data) {
   console.log(data);
 });
@@ -84,7 +84,7 @@ logging if item.age is in the highest 2 seen so far
 { name: 'John', age: 60 }
 ```
 
-### HifoStream.update(sortFunction, size)
+### HifoStream.update()
 
 HifoStream.update is just like HifoStream.filter, execpt instead of emitting
 each item, it sends the current sorted list.
@@ -96,7 +96,7 @@ var people = require('./people.json');
 
 console.log('logging sorted list if item.age is in the lowest 2 seen so far');
 es.readArray(people)
-.pipe(HifoStream.update(HifoStream.lowest('age'), 2))
+.pipe(HifoStream(HifoStream.lowest('age'), 2).update())
 .on('data', function (data) {
   console.log(data);
 });
