@@ -89,6 +89,9 @@ logging if item.age is in the highest 2 seen so far
 HifoStream.update is just like HifoStream.filter, execpt instead of emitting
 each item, it sends the current sorted list.
 
+[![npm version](https://img.shields.io/npm/v/hifo-stream.svg)](https://www.npmjs.com/package/hifo-stream)
+[![build status](https://img.shields.io/travis/brianshaler/hifo-stream.svg)](https://travis-ci.org/brianshaler/hifo-stream)
+
 ```javascript
 var es = require('event-stream');
 var HifoStream = require('hifo-stream');
