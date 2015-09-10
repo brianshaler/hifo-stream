@@ -6,6 +6,9 @@ Stream interface for [hifo](https://github.com/derhuerst/hifo).
 npm install hifo-stream
 ```
 
+[![npm version](https://img.shields.io/npm/v/hifo-stream.svg)](https://www.npmjs.com/package/hifo-stream)
+[![build status](https://img.shields.io/travis/brianshaler/hifo-stream.svg)](https://travis-ci.org/brianshaler/hifo-stream)
+
 ## Usage
 
 ### HifoStream.sorted()
@@ -88,9 +91,6 @@ logging if item.age is in the highest 2 seen so far
 
 HifoStream.update is just like HifoStream.filter, execpt instead of emitting
 each item, it sends the current sorted list.
-
-[![npm version](https://img.shields.io/npm/v/hifo-stream.svg)](https://www.npmjs.com/package/hifo-stream)
-[![build status](https://img.shields.io/travis/brianshaler/hifo-stream.svg)](https://travis-ci.org/brianshaler/hifo-stream)
 
 ```javascript
 var es = require('event-stream');
